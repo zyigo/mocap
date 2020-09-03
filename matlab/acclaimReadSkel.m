@@ -19,7 +19,7 @@ intPat = '([0-9]+)';
 
 boneCount = 0;
 fid = fopen(fileName, 'r');
-lin = getline(fid);
+lin = fgetl(fid);
 lin = strtrim(lin);
 skel.length = 1.0;
 skel.mass = 1.0;
