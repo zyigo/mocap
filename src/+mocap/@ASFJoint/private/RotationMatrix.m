@@ -36,6 +36,7 @@ matrix = eye(3);
 for i = 1:3
     switch order(i)
         case 'x'
+            A = [1, 0, 0; 0, c(1), s(1); 0, -s(1), c(1)];
             matrix = [1, 0, 0; 0, c(1), s(1); 0, -s(1), c(1)] * matrix;
         case 'y'
             matrix = [c(2), 0, -s(2); 0, 1, 0; s(2), 0, c(2)] * matrix;

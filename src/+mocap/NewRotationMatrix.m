@@ -28,10 +28,8 @@ if type == "deg"
     angles = deg2rad(angles);
 end
 
-vecLen = length(angles);
-
-angles = reshape(angles,[1,3,vecLen]);
-
+[vecLen,~,~] = size(angles);
+angles = reshape(angles',1,3,vecLen);
 c = cos(angles);
 s = sin(angles);
 
@@ -44,13 +42,18 @@ for i = 1:3
     switch order(i)
         case 'x'
             A = [   m1s,    m0s,        m0s;...
-                    m0s,    c(1,1,:),   s(1,1,:);...
-                    m0s,    -s(1,1,:),  c(1,1,:)];
-            matrix = pagemtimes(A,matrix);
-            disp(matrix);
+                    m0s,    c(1,i,:),   s(1,i,:);...
+                    m0s,    -s(1,i,:),  c(1,i,:)];
+            matrix = pagemtimes(A,'none',matrix,'none');
         case 'y'
-            matrix = [c(1,2,:), 0, -s(1,2,:); 0, 1, 0; s(1,2,:), 0, c(1,2,:)] .* matrix;
+            A = [   c(1,i,:),   m0s,    -s(1,i,:);...
+                    m0s,        m1s,    m0s;...
+                    s(1,i,:),   m0s,    c(1,i,:)];
+            matrix = pagemtimes(A,'none',matrix,'none');
         case 'z'
-            matrix = [c(1,3,:), s(1,3,:), 0; -s(1,3,:), c(1,3,:), 0; 0, 0, 1] .* matrix;
+            A = [   c(1,i,:),   s(1,i,:),   m0s;...
+                    -s(1,i,:),  c(1,i,:),   m0s;...
+                    m0s,        m0s,        m1s];
+            matrix = pagemtimes(A,'none',matrix,'none');
     end
 end

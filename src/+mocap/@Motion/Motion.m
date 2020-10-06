@@ -37,6 +37,19 @@ classdef Motion
             data = obj.Data(joint);
             data = data(:,ind);
         end
+        
+        function data = JointTranslationData(obj,joint)
+            x = obj.Skeleton.Joints(joint).Channels == "xTran";
+            y = obj.Skeleton.Joints(joint).Channels == "yTran";
+            z = obj.Skeleton.Joints(joint).Channels == "zTran";
+            
+            ind = x + y + z;
+            assert(sum(ind) == 3,"Channel definition error in skeleton.");
+            ind = find(ind);
+            
+            data = obj.Data(joint);
+            data = data(:,ind);
+        end
     end
     
     methods (Access = private)
